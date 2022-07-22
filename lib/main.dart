@@ -50,7 +50,8 @@ class _homePageState extends State<homePage> {
   int player_1 = 0;
   int player_2 = 0;
   int count = 0;
-  final textStyle = const TextStyle(color: Colors.white, fontSize: 20);
+  final textStyle =
+      const TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Poppins');
 
   whoIsWinner(int numberOfindex) {
     final winner = board[numberOfindex];
@@ -136,20 +137,29 @@ class _homePageState extends State<homePage> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 16, 7, 59),
-        title: const Text("Kółko i krzyżyk"),
+        title: const Text(
+          "Kółko i krzyżyk",
+          style: TextStyle(fontSize: 30, fontFamily: 'Poppins'),
+        ),
       ),
       body: Column(
         children: [
           Container(
             child: Column(
               children: [
-                Text("Liczba wygranych:", style: textStyle),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text("Kółko: $player_1", style: textStyle),
-                    Text("Krzyżyk: $player_2", style: textStyle),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("Liczba wygranych:", style: textStyle),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text("Kółko: $player_1", style: textStyle),
+                      Text("Krzyżyk: $player_2", style: textStyle),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -197,19 +207,25 @@ class _homePageState extends State<homePage> {
                         border: Border.all(color: Colors.grey.shade700)),
                     child: Center(
                       child: Text(board[index],
-                          style: const TextStyle(color: Colors.white,
-                              fontSize: 60, fontWeight: FontWeight.bold)),
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 60,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
                 );
               },
             ),
           ),
-          ElevatedButton(
-            onPressed: (() {
-              resetGame();
-            }),
-            child: const Text('Reset game'),
+          Container(
+            height: 100,
+            width: 200,
+            child: ElevatedButton(
+              onPressed: (() {
+                resetGame();
+              }),
+              child: const Text('Reset game'),
+            ),
           )
         ],
       ),
