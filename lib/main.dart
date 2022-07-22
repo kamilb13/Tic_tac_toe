@@ -52,6 +52,37 @@ class _homePageState extends State<homePage> {
   int player_2 = 0;
   int count = 0;
 
+  whoiswinner(int numberOfindex){
+    final winner = board[numberOfindex];
+    return winner;
+  }
+
+  whowin(int numberOfindex) {
+    final winner = whoiswinner(numberOfindex);
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Wygrał : $winner'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    for (int i = 0; i < 9; i++) {
+                      board[i] = '';
+                    }
+                  });
+                  count = 0;
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Zagraj jeszcze raz'),
+              )
+            ],
+          );
+        });
+  }
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,224 +117,62 @@ class _homePageState extends State<homePage> {
                       if (board[0] != '' &&
                           board[0] == board[1] &&
                           board[1] == board[2]) {
-                        final winner = board[0];
                         if (board[0] == 'O') {
                           player_1 += 1;
                           print(player_1);
-                        }else{
+                        } else {
                           player_2 += 1;
                           print(player_2);
                         }
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał: $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz.'),
-                                  )
-                                ],
-                              );
-                            });
+                        whowin(0);
                       }
 
                       if (board[3] != '' &&
                           board[3] == board[4] &&
                           board[4] == board[5]) {
-                        final winner = board[3];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                        whowin(3);
                       }
 
                       if (board[6] != '' &&
                           board[6] == board[7] &&
                           board[7] == board[8]) {
-                        final winner = board[6];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                         
+                        whowin(6);
                       }
                       //column
                       if (board[0] != '' &&
                           board[0] == board[3] &&
                           board[3] == board[6]) {
-                        final winner = board[0];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                         
+                        whowin(0);
                       }
 
                       if (board[1] != '' &&
                           board[1] == board[4] &&
                           board[4] == board[7]) {
-                        final winner = board[1];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                         
+                        whowin(1);
                       }
 
                       if (board[2] != '' &&
                           board[2] == board[5] &&
                           board[5] == board[8]) {
-                        final winner = board[2];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                         
+                        whowin(2);
                       }
                       //diagonal
                       if (board[0] != '' &&
                           board[0] == board[4] &&
                           board[4] == board[8]) {
-                        final winner = board[0];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                         
+                        whowin(0);
                       }
 
                       if (board[2] != '' &&
                           board[2] == board[4] &&
                           board[4] == board[6]) {
-                        final winner = board[2];
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text('Wygrał : $winner'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        for (int i = 0; i < 9; i++) {
-                                          board[i] = '';
-                                        }
-                                      });
-                                      count = 0;
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Zagraj jeszcze raz'),
-                                  )
-                                ],
-                              );
-                            });
+                         
+                        whowin(2);
                       }
 
                       if (count == 9) {
