@@ -52,37 +52,74 @@ class _homePageState extends State<homePage> {
   int player_2 = 0;
   int count = 0;
 
-  whoiswinner(int numberOfindex){
+  whoIsWinner(int numberOfindex) {
     final winner = board[numberOfindex];
     return winner;
   }
 
-  whowin(int numberOfindex) {
-    final winner = whoiswinner(numberOfindex);
+  whoWin(int numberOfindex) {
+    final winner = whoIsWinner(numberOfindex);
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Wygrał : $winner'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    for (int i = 0; i < 9; i++) {
-                      board[i] = '';
-                    }
-                  });
-                  count = 0;
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Zagraj jeszcze raz'),
-              )
-            ],
-          );
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Wygrał : $winner'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                resetGame();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Zagraj jeszcze raz'),
+            )
+          ],
+        );
+      },
+    );
   }
 
-  
+  resetGame() {
+    setState(() {
+      for (int i = 0; i < 9; i++) {
+        board[i] = '';
+      }
+    });
+    count = 0;
+  }
+
+  draw() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Remis'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                resetGame();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Zagraj jeszcze raz'),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  isWin(int index_1, int index_2, int index_3) {
+    if (board[index_1] != '' && board[index_1] == board[index_2] && board[index_2] == board[index_3]) {
+      if (board[index_1] == 'O') {
+        player_1 += 1;
+        print(player_1);
+      } else {
+        player_2 += 1;
+        print(player_2);
+      }
+      whoWin(index_1);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,69 +151,37 @@ class _homePageState extends State<homePage> {
 
                       player = !player;
                       //row
-                      if (board[0] != '' &&
-                          board[0] == board[1] &&
-                          board[1] == board[2]) {
-                        if (board[0] == 'O') {
-                          player_1 += 1;
-                          print(player_1);
-                        } else {
-                          player_2 += 1;
-                          print(player_2);
-                        }
-                        whowin(0);
-                      }
+                      // if (board[0] != '' &&
+                      //     board[0] == board[1] &&
+                      //     board[1] == board[2]) {
+                      //   if (board[0] == 'O') {
+                      //     player_1 += 1;
+                      //     print(player_1);
+                      //   } else {
+                      //     player_2 += 1;
+                      //     print(player_2);
+                      //   }
+                      //   whoWin(0);
+                      // }
+                      isWin(0, 1, 2);
 
-                      if (board[3] != '' &&
-                          board[3] == board[4] &&
-                          board[4] == board[5]) {
-                        whowin(3);
-                      }
+                      isWin(3, 4, 5);
 
-                      if (board[6] != '' &&
-                          board[6] == board[7] &&
-                          board[7] == board[8]) {
-                         
-                        whowin(6);
-                      }
+                      isWin(6, 7, 8);
                       //column
-                      if (board[0] != '' &&
-                          board[0] == board[3] &&
-                          board[3] == board[6]) {
-                         
-                        whowin(0);
-                      }
 
-                      if (board[1] != '' &&
-                          board[1] == board[4] &&
-                          board[4] == board[7]) {
-                         
-                        whowin(1);
-                      }
+                      isWin(0, 3, 6);
 
-                      if (board[2] != '' &&
-                          board[2] == board[5] &&
-                          board[5] == board[8]) {
-                         
-                        whowin(2);
-                      }
+                      isWin(1, 4, 7);
+
+                      isWin(2, 5, 8);
                       //diagonal
-                      if (board[0] != '' &&
-                          board[0] == board[4] &&
-                          board[4] == board[8]) {
-                         
-                        whowin(0);
-                      }
+                      isWin(0, 4, 8);
 
-                      if (board[2] != '' &&
-                          board[2] == board[4] &&
-                          board[4] == board[6]) {
-                         
-                        whowin(2);
-                      }
+                      isWin(2, 4, 6);
 
                       if (count == 9) {
-                        print('remis');
+                        draw();
                       }
                     });
                   },
@@ -195,12 +200,7 @@ class _homePageState extends State<homePage> {
           ),
           ElevatedButton(
             onPressed: (() {
-              setState(() {
-                for (int i = 0; i < 9; i++) {
-                  board[i] = '';
-                }
-              });
-              count = 0;
+              resetGame();
             }),
             child: const Text('Reset game'),
           )
