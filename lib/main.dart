@@ -110,7 +110,7 @@ class _homePageState extends State<homePage> {
                                       count = 0;
                                       Navigator.of(context).pop();
                                     },
-                                    child: const Text('Zagraj jeszcze raz'),
+                                    child: const Text('Zagraj jeszcze raz.'),
                                   )
                                 ],
                               );
