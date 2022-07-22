@@ -12,7 +12,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -51,6 +50,7 @@ class _homePageState extends State<homePage> {
   int player_1 = 0;
   int player_2 = 0;
   int count = 0;
+  final textStyle = const TextStyle(color: Colors.white, fontSize: 20);
 
   whoIsWinner(int numberOfindex) {
     final winner = board[numberOfindex];
@@ -108,21 +108,30 @@ class _homePageState extends State<homePage> {
   }
 
   isWin(int index_1, int index_2, int index_3) {
-    if (board[index_1] != '' && board[index_1] == board[index_2] && board[index_2] == board[index_3]) {
-      if (board[index_1] == 'O') {
-        player_1 += 1;
-        print(player_1);
-      } else {
-        player_2 += 1;
-        print(player_2);
-      }
+    if (board[index_1] != '' &&
+        board[index_1] == board[index_2] &&
+        board[index_2] == board[index_3]) {
+      wincount(index_1);
       whoWin(index_1);
     }
+  }
+
+  wincount(int index_1) {
+    setState(() {
+      if (board[index_1] == 'O') {
+        player_1 += 1;
+        print("Kolko zwycięstw: $player_1");
+      } else {
+        player_2 += 1;
+      }
+    });
+    return player_1;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 16, 7, 59),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
@@ -131,6 +140,20 @@ class _homePageState extends State<homePage> {
       ),
       body: Column(
         children: [
+          Container(
+            child: Column(
+              children: [
+                Text("Liczba wygranych:", style: textStyle),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Kółko: $player_1", style: textStyle),
+                    Text("Krzyżyk: $player_2", style: textStyle),
+                  ],
+                )
+              ],
+            ),
+          ),
           Expanded(
             child: GridView.builder(
               itemCount: 9,
@@ -151,33 +174,17 @@ class _homePageState extends State<homePage> {
 
                       player = !player;
                       //row
-                      // if (board[0] != '' &&
-                      //     board[0] == board[1] &&
-                      //     board[1] == board[2]) {
-                      //   if (board[0] == 'O') {
-                      //     player_1 += 1;
-                      //     print(player_1);
-                      //   } else {
-                      //     player_2 += 1;
-                      //     print(player_2);
-                      //   }
-                      //   whoWin(0);
-                      // }
                       isWin(0, 1, 2);
-
                       isWin(3, 4, 5);
-
                       isWin(6, 7, 8);
+
                       //column
-
                       isWin(0, 3, 6);
-
                       isWin(1, 4, 7);
-
                       isWin(2, 5, 8);
+
                       //diagonal
                       isWin(0, 4, 8);
-
                       isWin(2, 4, 6);
 
                       if (count == 9) {
@@ -190,7 +197,7 @@ class _homePageState extends State<homePage> {
                         border: Border.all(color: Colors.grey.shade700)),
                     child: Center(
                       child: Text(board[index],
-                          style: const TextStyle(
+                          style: const TextStyle(color: Colors.white,
                               fontSize: 60, fontWeight: FontWeight.bold)),
                     ),
                   ),
