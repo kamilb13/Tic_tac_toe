@@ -57,9 +57,9 @@ class _homePageState extends State<homePage> {
 
   whoseTurn() {
     setState(() {
-      if(turn == "O"){
+      if (turn == "O") {
         turn = "X";
-      }else{
+      } else {
         turn = "O";
       }
     });
@@ -161,7 +161,7 @@ class _homePageState extends State<homePage> {
         board[index_2] == board[index_3]) {
       wincount(index_1);
       whoWin(index_1);
-      whoseTurn();
+
       resetGame();
     }
   }
@@ -234,7 +234,7 @@ class _homePageState extends State<homePage> {
                         }
                       }
                       player = !player;
-
+                      whoseTurn();
                       //row
                       isWin(0, 1, 2);
                       isWin(3, 4, 5);
