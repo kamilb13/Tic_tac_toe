@@ -223,6 +223,8 @@ class _homePageState extends State<homePage> {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
+                      print(index);
+                      print(player);
                       if (board[index] != '') {
                       } else {
                         if (player == true && board[index] == '') {
@@ -232,9 +234,12 @@ class _homePageState extends State<homePage> {
                           board[index] = 'X';
                           count += 1;
                         }
+                        player = !player;
+                        whoseTurn();
                       }
-                      player = !player;
-                      whoseTurn();
+
+                      
+
                       //row
                       isWin(0, 1, 2);
                       isWin(3, 4, 5);
