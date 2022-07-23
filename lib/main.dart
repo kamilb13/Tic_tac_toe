@@ -34,6 +34,7 @@ class homePage extends StatefulWidget {
 
 class _homePageState extends State<homePage> {
   bool player = true;
+  String turn = 'O';
   List<String> board = [
     '',
     '',
@@ -53,6 +54,16 @@ class _homePageState extends State<homePage> {
   int count = 0;
   final mytextStyle2 =
       const TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Poppins');
+
+  whoseTurn() {
+    setState(() {
+      if(turn == "O"){
+        turn = "X";
+      }else{
+        turn = "O";
+      }
+    });
+  }
 
   whoIsWinner(int numberOfindex) {
     final winner = board[numberOfindex];
@@ -115,15 +126,29 @@ class _homePageState extends State<homePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Remis'),
+          backgroundColor: Colors.red[600],
+          title: const Center(
+            child: Text(
+              'Remis',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
                 resetGame();
                 Navigator.of(context).pop();
               },
-              child: const Text('Zagraj jeszcze raz'),
-            )
+              child: Center(
+                child: Text(
+                  'Zagraj jeszcze raz',
+                  style: mytextStyle2,
+                ),
+              ),
+            ),
           ],
         );
       },
@@ -136,6 +161,7 @@ class _homePageState extends State<homePage> {
         board[index_2] == board[index_3]) {
       wincount(index_1);
       whoWin(index_1);
+      whoseTurn();
       resetGame();
     }
   }
@@ -144,7 +170,6 @@ class _homePageState extends State<homePage> {
     setState(() {
       if (board[index_1] == 'O') {
         player_1 += 1;
-        print("Kolko zwycięstw: $player_1");
       } else {
         player_2 += 1;
       }
@@ -155,11 +180,11 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 10, 5, 39),
+      backgroundColor: const Color.fromARGB(255, 10, 5, 39),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 10, 5, 39),
+        backgroundColor: const Color.fromARGB(255, 10, 5, 39),
         title: const Text(
           "Kółko i krzyżyk",
           style: TextStyle(fontSize: 30, fontFamily: 'Poppins'),
@@ -167,25 +192,26 @@ class _homePageState extends State<homePage> {
       ),
       body: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Text("Liczba wygranych:", style: mytextStyle2),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("Kółko: $player_1", style: myTextStyle1),
+                    Text("Krzyżyk: $player_2", style: myTextStyle1),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text("Kółko: $player_1", style: myTextStyle1),
-                      Text("Krzyżyk: $player_2", style: myTextStyle1),
-                    ],
-                  ),
-                )
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Ruch: $turn",
+                  style: myTextStyle1,
+                ),
+              )
+            ],
           ),
           Expanded(
             child: GridView.builder(
@@ -197,15 +223,18 @@ class _homePageState extends State<homePage> {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      if (player == true && board[index] == '') {
-                        board[index] = 'O';
-                        count += 1;
+                      if (board[index] != '') {
                       } else {
-                        board[index] = 'X';
-                        count += 1;
+                        if (player == true && board[index] == '') {
+                          board[index] = 'O';
+                          count += 1;
+                        } else {
+                          board[index] = 'X';
+                          count += 1;
+                        }
                       }
-
                       player = !player;
+
                       //row
                       isWin(0, 1, 2);
                       isWin(3, 4, 5);
@@ -222,6 +251,7 @@ class _homePageState extends State<homePage> {
 
                       if (count == 9) {
                         draw();
+                        resetGame();
                       }
                     });
                   },
@@ -248,11 +278,9 @@ class _homePageState extends State<homePage> {
                 ElevatedButton(
                   onPressed: resetGame,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red[700],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0)
-                    )
-                  ),
+                      primary: Colors.red[700],
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0))),
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text('Resetuj\nplanszę', style: mytextStyle2),
