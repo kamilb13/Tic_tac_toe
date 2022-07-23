@@ -46,11 +46,12 @@ class _homePageState extends State<homePage> {
     '',
   ];
 
-  var myTextStyle = const TextStyle(color: Colors.white, fontSize: 30);
+  var myTextStyle1 =
+      const TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'Poppins');
   int player_1 = 0;
   int player_2 = 0;
   int count = 0;
-  final textStyle =
+  final mytextStyle2 =
       const TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Poppins');
 
   whoIsWinner(int numberOfindex) {
@@ -64,14 +65,28 @@ class _homePageState extends State<homePage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Wygrał : $winner'),
+          backgroundColor: Colors.red[600],
+          title: Center(
+            child: Text(
+              'Wygrał: $winner',
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
-                resetGame();
+                // resetGame();
                 Navigator.of(context).pop();
               },
-              child: const Text('Zagraj jeszcze raz'),
+              child: Center(
+                child: Text(
+                  'Zagraj jeszcze raz',
+                  style: mytextStyle2,
+                ),
+              ),
             )
           ],
         );
@@ -86,6 +101,13 @@ class _homePageState extends State<homePage> {
       }
     });
     count = 0;
+  }
+
+  resetPoints() {
+    setState(() {
+      player_1 = 0;
+      player_2 = 0;
+    });
   }
 
   draw() {
@@ -114,6 +136,7 @@ class _homePageState extends State<homePage> {
         board[index_2] == board[index_3]) {
       wincount(index_1);
       whoWin(index_1);
+      resetGame();
     }
   }
 
@@ -132,11 +155,11 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 16, 7, 59),
+      backgroundColor: Color.fromARGB(255, 10, 5, 39),
       appBar: AppBar(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 16, 7, 59),
+        backgroundColor: Color.fromARGB(255, 10, 5, 39),
         title: const Text(
           "Kółko i krzyżyk",
           style: TextStyle(fontSize: 30, fontFamily: 'Poppins'),
@@ -148,16 +171,16 @@ class _homePageState extends State<homePage> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text("Liczba wygranych:", style: textStyle),
+                  padding: const EdgeInsets.all(18.0),
+                  child: Text("Liczba wygranych:", style: mytextStyle2),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(24.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text("Kółko: $player_1", style: textStyle),
-                      Text("Krzyżyk: $player_2", style: textStyle),
+                      Text("Kółko: $player_1", style: myTextStyle1),
+                      Text("Krzyżyk: $player_2", style: myTextStyle1),
                     ],
                   ),
                 )
@@ -203,8 +226,8 @@ class _homePageState extends State<homePage> {
                     });
                   },
                   child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade700)),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.white)),
                     child: Center(
                       child: Text(board[index],
                           style: const TextStyle(
@@ -217,16 +240,43 @@ class _homePageState extends State<homePage> {
               },
             ),
           ),
-          Container(
-            height: 100,
-            width: 200,
-            child: ElevatedButton(
-              onPressed: (() {
-                resetGame();
-              }),
-              child: const Text('Reset game'),
+          Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: resetGame,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red[700],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0)
+                    )
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text('Resetuj\nplanszę', style: mytextStyle2),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: resetPoints,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red[700],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                      'Reset\npunktów',
+                      style: mytextStyle2,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
     );
